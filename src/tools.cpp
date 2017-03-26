@@ -1,5 +1,5 @@
-#include <iostream>
 #include "tools.h"
+#include <iostream>
 
 using Eigen::ArrayXd;
 using Eigen::VectorXd;
@@ -15,8 +15,7 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
   assert(estimations.size() == ground_truth.size());
   assert(estimations.size() != 0);
   ArrayXd sum_err2 = ArrayXd::Zero(estimations.front().size());
-  for (size_t i = 0; i < estimations.size(); ++i)
-  {
+  for (size_t i = 0; i < estimations.size(); ++i) {
     assert(estimations[i].size() == ground_truth[i].size());
     ArrayXd err = (estimations[i] - ground_truth[i]).array();
     sum_err2 += err * err;
@@ -24,7 +23,7 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
   return (sum_err2 / estimations.size()).sqrt().matrix();
 }
 
-MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
+MatrixXd Tools::CalculateJacobian(const VectorXd &x_state) {
   /**
   TODO:
     * Calculate a Jacobian here.

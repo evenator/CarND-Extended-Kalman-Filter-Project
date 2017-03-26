@@ -4,16 +4,12 @@
 #include "Eigen/Dense"
 
 class GroundTruthPackage {
-public:
+ public:
   long timestamp_;
 
-  enum SensorType{
-    LASER,
-    RADAR
-  } sensor_type_;
+  enum SensorType { LASER, RADAR } sensor_type_;
 
   Eigen::VectorXd gt_values_;
-
 };
 
 #endif /* GROUND_TRUTH_PACKAGE_H_ */
