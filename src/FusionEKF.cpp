@@ -1,7 +1,6 @@
 #include "FusionEKF.h"
 #include <iostream>
 #include "Eigen/Dense"
-#include "tools.h"
 
 using namespace std;
 using Eigen::MatrixXd;
@@ -105,4 +104,13 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   // print the output
   cout << "x_ = " << ekf_.x_ << endl;
   cout << "P_ = " << ekf_.P_ << endl;
+}
+
+
+
+MatrixXd FusionEKF::CalculateJacobian(const VectorXd &x_state) {
+  /**
+  TODO:
+    * Calculate a Jacobian here.
+  */
 }

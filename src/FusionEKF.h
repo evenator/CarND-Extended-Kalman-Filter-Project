@@ -7,7 +7,6 @@
 #include "Eigen/Dense"
 #include "kalman_filter.h"
 #include "measurement_package.h"
-#include "tools.h"
 
 class FusionEKF {
  public:
@@ -39,8 +38,9 @@ class FusionEKF {
   // previous timestamp
   long previous_timestamp_;
 
+  Eigen::MatrixXd CalculateJacobian(const Eigen::VectorXd &x_state);
+
   // tool object used to compute Jacobian and RMSE
-  Tools tools;
   Eigen::MatrixXd R_laser_;
   Eigen::MatrixXd R_radar_;
   Eigen::MatrixXd H_laser_;

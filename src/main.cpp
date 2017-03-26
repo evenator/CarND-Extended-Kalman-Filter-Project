@@ -7,6 +7,7 @@
 #include "FusionEKF.h"
 #include "ground_truth_package.h"
 #include "measurement_package.h"
+#include "tools.h"
 
 using namespace std;
 using Eigen::MatrixXd;
@@ -167,9 +168,8 @@ int main(int argc, char *argv[]) {
   }
 
   // compute the accuracy (RMSE)
-  Tools tools;
   cout << "Accuracy - RMSE:" << endl
-       << tools.CalculateRMSE(estimations, ground_truth) << endl;
+       << CalculateRMSE(estimations, ground_truth) << endl;
 
   // close files
   if (out_file_.is_open()) {
