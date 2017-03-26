@@ -7,7 +7,7 @@ using Eigen::MatrixXd;
 using std::vector;
 
 VectorXd CalculateRMSE(const vector<VectorXd> &estimations,
-                              const vector<VectorXd> &ground_truth) {
+                       const vector<VectorXd> &ground_truth) {
   assert(estimations.size() == ground_truth.size());
   assert(estimations.size() != 0);
   ArrayXd sum_err2 = ArrayXd::Zero(estimations.front().size());
