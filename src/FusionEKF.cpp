@@ -65,8 +65,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     is_initialized_ = true;
 
     // print the output
-    cout << "x_ = " << x_ << endl;
-    cout << "P_ = " << P_ << endl;
+    cout << "x:" << endl << x_ << endl;
+    cout << "P:" << endl << P_ << endl;
     previous_timestamp_ = measurement_pack.timestamp_;
     return;
   }
@@ -92,9 +92,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     Update(y, H_laser_, R_laser_);
   }
 
-  // print the output
-  cout << "x_ = " << x_ << endl;
-  cout << "P_ = " << P_ << endl;
   previous_timestamp_ = measurement_pack.timestamp_;
 }
 
@@ -139,7 +136,10 @@ Eigen::VectorXd FusionEKF::HInvRadar(const Eigen::VectorXd &z_measurement) {
   double r_dot = z_measurement(2);
   double c = cos(phi);
   double s = sin(phi);
-  return (VectorXd(4) << r * c, r * s, r_dot * c, r_dot * s).finished();
+  return (VectorXd(4) << r * c,
+                         r * s,
+                         r_dot * c,
+                         r_dot * s).finished();
 }
 
 MatrixXd FusionEKF::HjRadar(const VectorXd &x_state) {
@@ -202,16 +202,21 @@ void FusionEKF::Update(const VectorXd &y, const MatrixXd &H,
   assert(H.allFinite());
   assert(R.allFinite());
   // TODO: Preallocate S, K, for speed?
-  cout << "y:" << endl << y << endl;
-  cout << "H:" << endl << H << endl;
-  cout << "R:" << endl << R << endl;
   MatrixXd S = H * P_ * H.transpose() + R;
-  cout << "S:" << endl << S << endl;
   // TODO: It's more efficient to use Eigen's solver than an explicit inverse
   MatrixXd K = P_ * H.transpose() * S.inverse();
-  cout << "K:" << endl << K << endl;
   x_ = x_ + K * y;
   P_ = (MatrixXd::Identity(x_.size(), x_.size()) - K * H) * P_;
+  cout << endl
+       << "y:" << endl << y << endl
+       << "H:" << endl << H << endl
+       << "R:" << endl << R << endl
+       << "S:" << endl << S << endl
+       << "K:" << endl << K << endl
+       << "KH:" << endl << K*H << endl
+       << "X:" << endl << x_ << endl
+       << "P:" << endl << P_ << endl
+       << endl;
   assert(x_.allFinite());
   assert(P_.allFinite());
 }
