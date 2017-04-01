@@ -129,7 +129,7 @@ Eigen::VectorXd FusionEKF::HRadar(const Eigen::VectorXd &x_state) {
   double p = sqrt(p2);
   return (VectorXd(3) << p,
                          atan2(py, px),
-                         (px * vx + py * vy) / p2).finished();
+                         (px * vx + py * vy) / p).finished();
 }
 
 Eigen::VectorXd FusionEKF::HInvRadar(const Eigen::VectorXd &z_measurement) {
