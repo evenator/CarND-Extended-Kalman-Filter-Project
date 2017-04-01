@@ -35,7 +35,7 @@ class FusionEKF {
   // measurement)
   bool is_initialized_;
 
-  const double initial_variance_ = 1e20;
+  const double initial_variance_ = 1e3;
 
   // previous timestamp
   long previous_timestamp_;
