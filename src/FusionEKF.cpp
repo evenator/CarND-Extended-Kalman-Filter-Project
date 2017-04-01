@@ -51,9 +51,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
       x_ = HInvRadar(measurement_pack.raw_measurements_);
-      MatrixXd Hj = HjRadar(x_);
-      // TODO: Initialize P
-      // P_ = (Hj * Hj.transpose()).inverse() * R_radar_;
+      MatrixXd HInvj = HInvjRadar(x_);
+      P_ = HInvj * R_radar_ * HInvj.transpose();
     } else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
       x_(0) = measurement_pack.raw_measurements_(0);
       x_(1) = measurement_pack.raw_measurements_(1);
@@ -140,6 +139,19 @@ Eigen::VectorXd FusionEKF::HInvRadar(const Eigen::VectorXd &z_measurement) {
                          r * s,
                          r_dot * c,
                          r_dot * s).finished();
+}
+
+Eigen::MatrixXd FusionEKF::HInvjRadar(const Eigen::VectorXd &z_measurement) {
+  assert(z_measurement.allFinite());
+  double r = z_measurement(0);
+  double phi = z_measurement(1);
+  double r_dot = z_measurement(2);
+  double s = sin(phi);
+  double c = sin(phi);
+  return (MatrixXd(4,3) << c, -r * s, 0,
+                           s, r * c, 0,
+                           0, -r_dot * s, c,
+                           0, r_dot * c, s).finished();
 }
 
 MatrixXd FusionEKF::HjRadar(const VectorXd &x_state) {

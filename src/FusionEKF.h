@@ -66,12 +66,20 @@ class FusionEKF {
   Eigen::MatrixXd CalculateF(double dt);
 
   /**
-   * The linearized (Jacobian) H matrix for the ladar, as a function of the
+   * The linearized (Jacobian) H matrix for the radar, as a function of the
    * state
    * @param x_state The object state to convert to measurement space
    * @return The H matrix
    */
   Eigen::MatrixXd HjRadar(const Eigen::VectorXd &x_state);
+
+  /**
+   * The linearized (Jacobian) H-inverse matrix for the radar, as a function
+   * of the measurement
+   * @param z_meaurement The measurement vector to convert to state space
+   * @return The H-inverse matrix
+   */
+  Eigen::MatrixXd HInvjRadar(const Eigen::VectorXd &z_measurement);
 
   /**
    * Prediction Predicts the state and the state covariance
